@@ -1,0 +1,19 @@
+
+import requests
+
+url = "https://api.ocr.proclubstudio.com/file"
+
+payload = {}
+files = [
+  ('file', open('/home/faoziaziz/github/OCR_nanda/image/320220.png','rb'))
+]
+
+#file2 = open('/home/faoziaziz/github/OCR_nanda/image/320220.png','rb')
+
+headers = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+}
+
+response = requests.post(url, 'multipart/form-data',  [('file', open('/home/faoziaziz/github/OCR_nanda/image/320220.png','rb'))])
+
+print(response.text.encode('utf8'))
