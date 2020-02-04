@@ -21,6 +21,7 @@ class ocrnanda:
     Image = None
     Teks = None
     idFileTransferStage = None
+    path = None
 
     conn = None
     config = {
@@ -38,17 +39,19 @@ class ocrnanda:
         #
         #
         # Constructor for this class
+        self.path = "image/" + str(SeqNUM)+".png"
         self.DevID = DeviceID
         self.Image = ImageBlob
-        self.Refsn = SeqNum
+        self.RefSN = SeqNum
         self.idFileTransferStage = RefSN
         self.conn = mysql.connector.connect(**self.config)
         self.ImageSave()
         self.ImageTranslate()
         print "error"
+ 
 
     def ImageSave(self):
-        fout = open("image/temp.png", 'wb')
+        fout = open(self.path, 'wb')
         fout.write(self.Image)
         fout.close()
         print "image save"
@@ -56,7 +59,7 @@ class ocrnanda:
     def ImageTranslate(self):
         # get file from filename
 
-        files = {'file': open('image/test.png', 'rb')}
+        files = {'file': open(self.path, 'rb')}
         #files = {'file': self.Image}
         response = requests.post('https://api.ocr.proclubstudio.com/file', files=files)
         if response.status_code ==200:
@@ -77,7 +80,7 @@ class ocrnanda:
         curr = self.conn.cursor()
         print "SaveTeksToTable"
         query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
-        curr.execute(query, (self.DeviceId, self.RefSN, self.Teks))
+        curr.execute(query, (self.DevID, self.RefSN, self.Teks))
         self.conn.commit()
         self.UpdateFlag()
         curr.close()
@@ -87,12 +90,12 @@ class ocrnanda:
         mycursor = self.conn.cursor()
         query = "UPDATE Image SET Flag=1 WHERE SeqNum = '%s'"
         print "+= da =+"
-        myscursor.execute(sql, (self.RefSN, ))
+        mycursor.execute(query, (self.RefSN, ))
         self.conn.commit()
-        self.UpdateFlag()
+        #self.UpdateFlag()
         mycursor.close()
         print "update flag"
-        os.remove("image/temp.png")
+        #os.remove("image/temp.png")
 
     def __del__(self):
         print "Destruktor"
