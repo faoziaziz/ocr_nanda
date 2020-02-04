@@ -2,10 +2,10 @@
 # author      : Aziz Amerul Faozi
 # description : This code will use for testing ocr
 #
-
+import os
 import requests
 import mysql.connector
-from mysql.connector import error
+from mysql.connector import errorcode
 
 
 class ocrnanda:
@@ -32,23 +32,32 @@ class ocrnanda:
     }
 
 
-    def __INIT__(self, SeqNum, DeviceID, RefSN, ImageBlob):
+    def __init__(self, SeqNum, DeviceID, RefSN, ImageBlob):
+        # save image
+        #
+        #
+        #
         # Constructor for this class
         self.DevID = DeviceID
         self.Image = ImageBlob
         self.Refsn = SeqNum
         self.idFileTransferStage = RefSN
         self.conn = mysql.connector.connect(**self.config)
+        self.ImageSave()
         self.ImageTranslate()
+        print "error"
 
     def ImageSave(self):
+        fout = open("image/temp.png", 'wb')
+        fout.write(self.Image)
+        fout.close()
         print "image save"
 
     def ImageTranslate(self):
         # get file from filename
 
-        # files = {'file': open('image/320220.png', 'rb')}
-        files = {'file': self.Image}
+        files = {'file': open('image/test.png', 'rb')}
+        #files = {'file': self.Image}
         response = requests.post('https://api.ocr.proclubstudio.com/file', files=files)
         if response.status_code ==200:
             self.Teks=response.json()["result"]
@@ -58,7 +67,7 @@ class ocrnanda:
             print `self.idFileTransferStage`+ " converted"
         else:
             print "=================="
-            print response.json()
+            print response
             
 
         
@@ -83,8 +92,9 @@ class ocrnanda:
         self.UpdateFlag()
         mycursor.close()
         print "update flag"
+        os.remove("image/temp.png")
 
-    def __DEL__(self):
+    def __del__(self):
         print "Destruktor"
         del self.Image
         del self.idFileTransferStage
@@ -102,17 +112,18 @@ config = {
 }
 
 conn = mysql.connector.connect(**config)
-sql_get_query = """select * from Trumon.Image where FlagOCR='%s'""";
-FlagOCR = 0
+sql_get_query = """select * from Image where Flag='0'""";
 curr = conn.cursor()
-curr.execute(sql_get_query,(FlagOCR, ))
+curr.execute(sql_get_query)
 rows = curr.fetchall()
 for row in rows:
     # SeqNUM  ->
     # RefSN ->
     # ImageBlob ->
     SeqNUM = row[0]
+    print "SeqNUM "+`SeqNUM`
     DeviceID = row[1]
+    
     RefSN = row[2]
     ImageBlob =row[3]
     
