@@ -1,3 +1,4 @@
+#!/bin/python2
 #
 # author      : Aziz Amerul Faozi
 # description : This code will use for testing ocr
