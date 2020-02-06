@@ -1,8 +1,9 @@
 import requests
 
-files = {'file': open('image/320220.png', 'rb')}
+files = {'file': open('image/4803.png', 'rb')}
 
 response = requests.post('https://api.ocr.proclubstudio.com/file', files=files)
+print response
 print(response.json()['result'])
 
 print response

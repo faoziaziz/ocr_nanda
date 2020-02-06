@@ -5,6 +5,7 @@
 import os
 import requests
 import mysql.connector
+import time
 from mysql.connector import errorcode
 
 
@@ -25,9 +26,9 @@ class ocrnanda:
 
     conn = None
     config = {
-        'user':'IntanKW',
-        'password':'IntanCantik',
-        'host':'labseni.com',
+        'user':'root',
+        'password':'trumon123',
+        'host':'127.0.0.1',
         'port':'3306',
         'database':'Trumon'
     }
@@ -54,7 +55,7 @@ class ocrnanda:
         fout = open(self.path, 'wb')
         fout.write(self.Image)
         fout.close()
-        print "image save"
+       
 
     def ImageTranslate(self):
         # get file from filename
@@ -65,12 +66,14 @@ class ocrnanda:
         if response.status_code ==200:
             self.Teks=response.json()["result"]
             self.SaveTeksToTable()
-            
 
             print `self.idFileTransferStage`+ " converted"
         else:
             print "=================="
-            print response
+            print response.json()
+            print "reconnect >>>"
+            time.sleep(3)
+            self.ImageTranslate()
             
 
         
@@ -101,15 +104,15 @@ class ocrnanda:
         print "Destruktor"
         del self.Image
         del self.idFileTransferStage
-        del self.Teks
+       # del self.Teks
 
 
 
 # Main program
 config = {
-    'user':'IntanKW',
-    'password':'IntanCantik',
-    'host':'labseni.com',
+    'user':'root',
+    'password':'trumon123',
+    'host':'127.0.0.1',
     'port':3306,
     'database':'Trumon'
 }
