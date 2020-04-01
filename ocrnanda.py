@@ -110,7 +110,7 @@ class ocrnanda:
     def ErrorFlag(self):
         # update flag
         mycursor = self.conn.cursor()
-        query = "UPDATE Image SET Flag=999 WHERE SeqNum = '%s'"
+        query = "UPDATE Image SET Flag=69 WHERE SeqNum = '%s'"
         print "+= da =+"
         mycursor.execute(query, (self.RefSN, ))
         self.conn.commit()
