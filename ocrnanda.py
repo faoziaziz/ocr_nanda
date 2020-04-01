@@ -81,12 +81,18 @@ class ocrnanda:
 
     def SaveTeksToTable(self):
         # Save to teks
-        curr = self.conn.cursor()
-        print "SaveTeksToTable"
-        query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
-        curr.execute(query, (self.DevID, self.RefSN, self.Teks))
-        self.conn.commit()
-        self.UpdateFlag()
+        try:
+            curr = self.conn.cursor()
+            print "SaveTeksToTable"
+            query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
+            curr.execute(query, (self.DevID, self.RefSN, self.Teks))
+            self.conn.commit()
+            self.UpdateFlag()
+
+        except:
+            print "Error writing"
+            self.ErrorFlag()
+
         curr.close()
 
     def UpdateFlag(self):
@@ -100,6 +106,19 @@ class ocrnanda:
         mycursor.close()
         print "update flag"
         #os.remove("image/temp.png")
+
+    def ErrorFlag(self):
+        # update flag
+        mycursor = self.conn.cursor()
+        query = "UPDATE Image SET Flag=999 WHERE SeqNum = '%s'"
+        print "+= da =+"
+        mycursor.execute(query, (self.RefSN, ))
+        self.conn.commit()
+        #self.UpdateFlag()
+        mycursor.close()
+        print "update flag"
+        #os.remove("image/temp.png")
+
 
     def __del__(self):
         print "Destruktor"
