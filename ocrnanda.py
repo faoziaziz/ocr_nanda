@@ -63,7 +63,7 @@ class ocrnanda:
 
         files = {'file': open(self.path, 'rb')}
         #files = {'file': self.Image}
-        response = requests.post('https://api.ocr.proclubstudio.com/file', files=files)
+        response = requests.post('http://172.26.2.5:8000/file', files=files)
         if response.status_code ==200:
             self.Teks=response.json()["result"]
             self.SaveTeksToTable()
