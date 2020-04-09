@@ -108,7 +108,7 @@ class ocrnanda:
             print strTeks
             print "SaveTeksToTable"
             query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
-            curr.execute(query, (self.DevID, self.RefSN, strTeks))
+            curr.execute(query, (self.DevID, self.RefSN, str(strTeks)))
             self.conn.commit()
             self.UpdateFlag()
 
