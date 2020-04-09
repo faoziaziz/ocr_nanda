@@ -104,6 +104,7 @@ class ocrnanda:
         try:
             print "this will save to teks after converted to string"
             curr = self.conn.cursor()
+            print str(self.Teks)
             print "SaveTeksToTable"
             query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
             curr.execute(query, (self.DevID, self.RefSN, str(self.Teks)))
