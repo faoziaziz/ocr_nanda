@@ -53,6 +53,7 @@ class ocrnanda:
  
 
     def ImageSave(self):
+        print "ImageSaving . . . . "
         fout = open(self.path, 'wb')
         fout.write(self.Image)
         fout.close()
@@ -60,6 +61,7 @@ class ocrnanda:
 
     def ImageTranslate(self):
         # get file from filename
+        print "Image Translating . . ."
 
         files = {'file': open(self.path, 'rb')}
         #files = {'file': self.Image}
@@ -80,6 +82,7 @@ class ocrnanda:
 
     def SaveTeksToTable(self):
         # Save to teks
+        print "Teks saving part 1"
         try:
             curr = self.conn.cursor()
             print "SaveTeksToTable"
@@ -174,5 +177,6 @@ for row in rows:
     
     ocrnanda(SeqNUM, DeviceID, RefSN, ImageBlob)
 
+print "All success "
 curr.close()
 conn.close()
