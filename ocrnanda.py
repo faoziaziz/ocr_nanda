@@ -106,6 +106,8 @@ class ocrnanda:
             curr = self.conn.cursor()
             strTeks = u''.join((self.Teks)).encode('utf-8').strip()
             print strTeks
+            print "type teks : "
+            print type(strTeks)
             print "SaveTeksToTable"
             query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
             curr.execute(query, (self.DevID, self.RefSN, str(strTeks)))
