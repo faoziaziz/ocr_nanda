@@ -49,7 +49,7 @@ class ocrnanda:
         self.conn = mysql.connector.connect(**self.config)
         self.ImageSave()
         self.ImageTranslate()
-        print "error"
+        print "warning : Thats will initiate"
  
 
     def ImageSave(self):
@@ -75,9 +75,8 @@ class ocrnanda:
             print "reconnect >>>"
             time.sleep(3)
             self.ImageTranslate()
-            
 
-        
+
 
     def SaveTeksToTable(self):
         # Save to teks
@@ -90,10 +89,30 @@ class ocrnanda:
             self.UpdateFlag()
 
         except:
-            print "Error writing"
-            self.ErrorFlag()
+            print "Warning : Type not as same as the world"
+            self.WriteEksep()
 
         curr.close()
+
+    def WriteEksep(self):
+        # This code will make this shit
+        print "This code will Eksep"
+
+        try:
+            print "this will save to teks after converted to string"
+            curr = self.conn.cursor()
+            print "SaveTeksToTable"
+            query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
+            curr.execute(query, (self.DevID, self.RefSN, str(self.Teks))
+            self.conn.commit()
+            self.UpdateFlag()
+
+
+        except:
+            print "Error : This will exception should be"
+            print "executed, "
+            self.ErrorFlag()
+
 
     def UpdateFlag(self):
         # update flag
