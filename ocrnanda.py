@@ -101,21 +101,21 @@ class ocrnanda:
         # This code will make this shit
         print "This code will Eksep"
 
-        try:
-            print "this will save to teks after converted to string"
-            curr = self.conn.cursor()
-            print str(self.Teks)
-            print "SaveTeksToTable"
-            query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
-            curr.execute(query, (self.DevID, self.RefSN, str(self.Teks)))
-            self.conn.commit()
-            self.UpdateFlag()
+        #try:
+        print "this will save to teks after converted to string"
+        curr = self.conn.cursor()
+        print str(self.Teks)
+        print "SaveTeksToTable"
+        query=(""" INSERT INTO `Teks`(`DeviceId`, `RefSN`, `Data`) VALUES (%s, %s, %s)""")
+        curr.execute(query, (self.DevID, self.RefSN, str(self.Teks)))
+        self.conn.commit()
+        self.UpdateFlag()
 
 
-        except:
-            print "Error : This will exception should be"
-            print "executed, "
-            self.ErrorFlag()
+        #except:
+           # print "Error : This will exception should be"
+           # print "executed, "
+           # self.ErrorFlag()
 
 
     def UpdateFlag(self):
